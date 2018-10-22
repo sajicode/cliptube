@@ -1,0 +1,70 @@
+body {
+  background: #333;
+  color: #fff;
+}
+
+#main-section {
+  background: url("../img/home.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  min-height: 700px;
+}
+
+#teach-section,
+#learn-section {
+  background: url("../img/teach.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+  min-height: 700px;
+}
+
+#learn-section {
+  background: url("../img/learn.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+  min-height: 700px;
+}
+
+#teach-section .dark-overlay,
+#learn-section .dark-overlay {
+  position: absolute;
+  top: 3em;
+  left: 0;
+  width: 100%;
+  min-height: 700px;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+#main-section .dark-overlay {
+  position: absolute;
+  top: 3em;
+  left: 0;
+  width: 100%;
+  min-height: 700px;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+#main-section .main-inner,
+#teach-section .main-inner,
+#learn-section .main-inner {
+  padding-top: 100px;
+}
+
+#register-modal {
+  display: block;
+  position: relative;
+}
+
+#login-modal {
+  position: relative;
+}
+
+#modal-login:hover,
+#modal-register:hover {
+  cursor: pointer;
+}
