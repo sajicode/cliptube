@@ -50,24 +50,10 @@ TeacherSchema.methods.toJSON = function () {
 };
 
 // for login
-TeacherSchema.statics.checkLogin = function (email, password) {
-  let Teacher = this;
-  return Teacher.findOne({
-    email
-  }).then(teacher => {
-    if (!teacher) {
-      return Promise.reject();
-    }
-
-    return new Promise((resolve, reject) => {
-      bcrypt.compare(password, teacher.password, (err, res) => {
-        if (res) {
-          resolve(teacher);
-        } else {
-          reject();
-        }
-      });
-    });
+TeacherSchema.methods.checkPassword = function (password, done) {
+  let teacher = this;
+  bcrypt.compare(password, teacher.password, (err, res) => {
+    done(err, res);
   });
 };
 
