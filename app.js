@@ -23,12 +23,13 @@ passportConfig();
 
 app.set("port", process.env.PORT || 3100);
 
-app.set("views", path.join(__dirname, "views"));
-
 app.engine('handlebars', exphbs());
 app.set('view engine', 'handlebars');
 
-app.use(morgan(dev));
+// app.set("views", path.join(__dirname, "views"));
+app.use('/public', express.static(path.join(__dirname, 'public')));
+
+app.use(morgan("dev"));
 app.use(cors());
 
 app.use(bps.urlencoded({
