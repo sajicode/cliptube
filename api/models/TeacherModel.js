@@ -42,12 +42,12 @@ const TeacherSchema = new mongoose.Schema({
   }
 });
 
-TeacherSchema.methods.toJSON = function () {
-  let teacher = this;
-  let teacherObject = teacher.toObject();
+// TeacherSchema.methods.toJSON = function () {
+//   let teacher = this;
+//   let teacherObject = teacher.toObject();
 
-  return _.pick(teacherObject, ['_id', 'firstname', 'lastname', 'email', 'clipwords', 'createdAt'])
-};
+//   return _.pick(teacherObject, ['_id', 'firstname', 'lastname', 'email', 'clipwords', 'createdAt'])
+// };
 
 // for login
 TeacherSchema.methods.checkPassword = function (password, done) {

@@ -1,7 +1,9 @@
 let express = require('express');
 const passport = require('passport');
 
-const Teacher = require("../models/TeacherModel");
+const {
+  Teacher
+} = require("../models/TeacherModel");
 
 const router = express.Router();
 
@@ -10,7 +12,7 @@ function ensureAuthenticated(req, res, next) {
     next();
   } else {
     req.flash("info", "You must be logged in to see this page");
-    res.redirect("/login");
+    res.redirect("/");
   }
 }
 
@@ -25,7 +27,7 @@ router.get("/", function (req, res) {
   res.render("index");
 });
 
-router.post("/register", function (req, res, next) {
+router.post("/", function (req, res, next) {
   let email = req.body.email;
   let firstname = req.body.firstname;
   let lastname = req.body.lastname;
@@ -39,7 +41,7 @@ router.post("/register", function (req, res, next) {
     }
     if (teacher) {
       req.flash("error", "Teacher already exists");
-      return res.redirect("/register");
+      return res.redirect("/");
     }
 
     let newTeacher = new Teacher({
@@ -52,7 +54,7 @@ router.post("/register", function (req, res, next) {
   });
 }, passport.authenticate("login", {
   successRedirect: "/teach",
-  failureRedirect: "/register",
+  failureRedirect: "/learn",
   failureFlash: true
 }));
 
@@ -60,5 +62,8 @@ router.get("/teach", function (req, res) {
   res.render("teach");
 });
 
+router.get("/learn", function (req, res) {
+  res.render("learn");
+});
 
 module.exports = router;
