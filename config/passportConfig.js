@@ -7,7 +7,7 @@ module.exports = function () {
     done(null, teacher._id);
   });
 
-  passport.deserializeUser(function (id, none) {
+  passport.deserializeUser(function (id, done) {
     Teacher.findById(id, function (err, teacher) {
       done(err, teacher);
     });
