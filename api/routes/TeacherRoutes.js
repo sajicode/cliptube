@@ -17,7 +17,7 @@ function ensureAuthenticated(req, res, next) {
 }
 
 router.use(function (req, res, next) {
-  res.locals.currentUser = req.user;
+  res.locals.currentUser = req.teacher;
   res.locals.errors = req.flash("error");
   res.locals.infos = req.flash("info");
   next();
@@ -52,7 +52,7 @@ router.post("/", function (req, res, next) {
     });
     newTeacher.save(next);
   });
-}, passport.authenticate("login", {
+}, passport.authenticate("local", {
   successRedirect: "/teach",
   failureRedirect: "/learn",
   failureFlash: true

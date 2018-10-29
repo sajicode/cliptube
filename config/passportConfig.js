@@ -1,6 +1,8 @@
 const passport = require("passport");
 const LocalStrategy = require('passport-local').Strategy;
-const Teacher = require("../api/models/TeacherModel");
+const {
+  Teacher
+} = require("../api/models/TeacherModel");
 
 module.exports = function () {
   passport.serializeUser(function (teacher, done) {
@@ -13,30 +15,33 @@ module.exports = function () {
     });
   });
 
-  passport.use("login", new LocalStrategy(function (email, password, done) {
-    Teacher.findOne({
-      email
-    }, function (err, teacher) {
-      if (err) {
-        return done(err);
-      }
-      if (!teacher) {
-        return done(null, false, {
-          message: "No teacher has that email!"
-        });
-      }
-      teacher.checkPassword(password, function (err, res) {
+  passport.use(new LocalStrategy({
+      usernameField: 'email'
+    },
+    function (username, password, done) {
+      Teacher.findOne({
+        username
+      }, function (err, teacher) {
         if (err) {
           return done(err);
         }
-        if (res) {
-          return done(null, teacher);
-        } else {
+        if (!teacher) {
           return done(null, false, {
-            message: "Invalid Password!"
+            message: "No teacher has that email!"
           });
         }
+        teacher.checkPassword(password, function (err, res) {
+          if (err) {
+            return done(err);
+          }
+          if (res) {
+            return done(null, teacher);
+          } else {
+            return done(null, false, {
+              message: "Invalid Password!"
+            });
+          }
+        });
       });
-    });
-  }));
+    }));
 };

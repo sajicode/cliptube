@@ -32,6 +32,7 @@ app.use('/public', express.static(path.join(__dirname, 'public')));
 app.use(morgan("dev"));
 app.use(cors());
 
+app.use(bps.json());
 app.use(bps.urlencoded({
   extended: false
 }));
