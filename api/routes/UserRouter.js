@@ -7,6 +7,9 @@ const {
 const {
   User
 } = require("../models/UserModel");
+const {
+  ClipWord
+} = require('../models/ClipModel');
 
 passportConfig();
 
@@ -100,6 +103,26 @@ router.get("/teach", ensureAuthenticated, function (req, res) {
 
 router.get("/learn", ensureAuthenticated, function (req, res) {
   res.render("learn");
+});
+
+// clipword
+router.post("/teach", ensureAuthenticated, function (req, res) {
+  let clipword = req.body.clipword;
+  let url = req.body.url;
+  let teacher = req.user;
+
+  let newClip = new ClipWord({
+    clipword,
+    url
+  });
+  newClip.save()
+    .then(() => {
+      teacher.clipwords.push(newClip)
+      teacher.save()
+    }).then(() => {
+      req.flash("successMsg", "Clipword added successfully");
+      res.redirect("/teach");
+    });
 });
 
 module.exports = router;
