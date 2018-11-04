@@ -39,7 +39,7 @@ router.post("/register", function (req, res, next) {
   let errors = req.validationErrors();
 
   if (errors) {
-    res.render('/', {
+    res.render('index', {
       errors
     });
   } else {
@@ -72,10 +72,10 @@ router.post('/login',
     successRedirect: '/teach',
     failureRedirect: '/',
     failureFlash: true
-  }),
-  function (req, res) {
-    res.redirect('/teach');
-  }
+  })
+  // function (req, res) {
+  //   res.redirect('/teach');
+  // }
 );
 
 router.get('/logout', function (req, res) {
@@ -84,11 +84,11 @@ router.get('/logout', function (req, res) {
   res.redirect("/");
 });
 
-router.get("/teach", function (req, res) {
+router.get("/teach", ensureAuthenticated, function (req, res) {
   res.render("teach");
 });
 
-router.get("/learn", function (req, res) {
+router.get("/learn", ensureAuthenticated, function (req, res) {
   res.render("learn");
 });
 

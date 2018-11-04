@@ -3,13 +3,29 @@
     <div class="dark-overlay">
       <div class="main-inner container">
         <div class="row">
-
+          
           <div class="col-md-6 mx-auto">
+            {{#if successMsg}}
+            <div class="alert alert-success">{{successMsg}}</div>
+            {{/if}}
+            
+            {{#if errorMsg}}
+            <div class="alert alert-danger">{{errorMsg}}</div>
+            {{/if}}
+            
+            {{#if error}}
+            <div class="alert alert-danger">{{error}}</div>
+            {{/if}}
             <!--register modal-->
             <div class="modal" id="register-modal">
               <div class="card bg-success text-center card-form modal-body">
                 <div class="card-body">
                   <h3>Register as a Teacher</h3>
+                  {{#if errors}}
+                    {{#each errors}}
+                      <div class="alert alert-danger">{{msg}}</div>
+                    {{/each}}
+                  {{/if}}
                   <form action="/register" method="POST">
                     <div class="form-group">
                       <div class="form-group">
