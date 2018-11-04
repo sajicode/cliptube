@@ -4,16 +4,18 @@ const validator = require('validator');
 const bcrypt = require('bcryptjs');
 const _ = require('lodash');
 
-const TeacherSchema = new mongoose.Schema({
+const UserSchema = new mongoose.Schema({
   firstname: {
     type: String,
     required: true,
     minlength: 2
   },
-  lastname: {
+  username: {
     type: String,
     required: true,
-    minlength: 2
+    minlength: 2,
+    trim: true,
+    unique: true
   },
   email: {
     type: String,
@@ -42,29 +44,22 @@ const TeacherSchema = new mongoose.Schema({
   }
 });
 
-// TeacherSchema.methods.toJSON = function () {
-//   let teacher = this;
-//   let teacherObject = teacher.toObject();
-
-//   return _.pick(teacherObject, ['_id', 'firstname', 'lastname', 'email', 'clipwords', 'createdAt'])
-// };
-
 // for login
-TeacherSchema.methods.checkPassword = function (password, done) {
-  let teacher = this;
-  bcrypt.compare(password, teacher.password, (err, res) => {
+UserSchema.methods.checkPassword = function (password, done) {
+  let user = this;
+  bcrypt.compare(password, user.password, (err, res) => {
     done(err, res);
   });
 };
 
 // hash password
-TeacherSchema.pre('save', function (next) {
-  let teacher = this;
+UserSchema.pre('save', function (next) {
+  let user = this;
 
-  if (teacher.isModified('password')) {
+  if (user.isModified('password')) {
     bcrypt.genSalt(10, (err, salt) => {
-      bcrypt.hash(teacher.password, salt, (err, hash) => {
-        teacher.password = hash;
+      bcrypt.hash(user.password, salt, (err, hash) => {
+        user.password = hash;
         next();
       });
     });
@@ -73,8 +68,8 @@ TeacherSchema.pre('save', function (next) {
   }
 });
 
-const Teacher = mongoose.model('teacher', TeacherSchema);
+const User = mongoose.model('teacher', UserSchema);
 
 module.exports = {
-  Teacher
+  User
 };

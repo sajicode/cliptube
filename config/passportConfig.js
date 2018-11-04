@@ -1,41 +1,39 @@
 const passport = require("passport");
 const LocalStrategy = require('passport-local').Strategy;
 const {
-  Teacher
-} = require("../api/models/TeacherModel");
+  User
+} = require("../api/models/UserModel");
 
 module.exports = function () {
-  passport.serializeUser(function (teacher, done) {
-    done(null, teacher._id);
+  passport.serializeUser(function (user, done) {
+    done(null, user._id);
   });
 
   passport.deserializeUser(function (id, done) {
-    Teacher.findById(id, function (err, teacher) {
-      done(err, teacher);
+    User.findById(id, function (err, user) {
+      done(err, user);
     });
   });
 
-  passport.use(new LocalStrategy({
-      usernameField: 'email'
-    },
+  passport.use(new LocalStrategy(
     function (username, password, done) {
-      Teacher.findOne({
+      User.findOne({
         username
-      }, function (err, teacher) {
+      }, function (err, user) {
         if (err) {
           return done(err);
         }
-        if (!teacher) {
+        if (!user) {
           return done(null, false, {
             message: "No teacher has that email!"
           });
         }
-        teacher.checkPassword(password, function (err, res) {
+        user.checkPassword(password, function (err, res) {
           if (err) {
             return done(err);
           }
           if (res) {
-            return done(null, teacher);
+            return done(null, user);
           } else {
             return done(null, false, {
               message: "Invalid Password!"
