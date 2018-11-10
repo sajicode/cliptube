@@ -16,14 +16,14 @@ function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {
     return next();
   } else {
-    req.flash("errorMsg", "You must be logged in to see this page");
-    res.redirect("/");
+    req.flash('errorMsg', 'You must be logged in to see this page');
+    res.redirect('/login');
   }
 }
 
 // clipword
 
-router.post("/teach", ensureAuthenticated, function (req, res, next) {
+router.post('/teach', ensureAuthenticated, function (req, res, next) {
   let clipword = req.body.clipword;
   let url = req.body.url;
   let teacher = req.user;
@@ -31,7 +31,9 @@ router.post("/teach", ensureAuthenticated, function (req, res, next) {
   req.checkBody('clipword', 'Clipword is required').notEmpty().trim();
   req.checkBody('url', 'URL is required').notEmpty().trim();
 
-  let videoId, r, rx = /^.*(?:(?:youtu\.be\/|v\/|vi\/|u\/\w\/|embed\/)|(?:(?:watch)?\?v(?:i)?=|\&v(?:i)?=))([^#\&\?]*).*/;
+  let videoId,
+    r,
+    rx = /^.*(?:(?:youtu\.be\/|v\/|vi\/|u\/\w\/|embed\/)|(?:(?:watch)?\?v(?:i)?=|\&v(?:i)?=))([^#\&\?]*).*/;
 
   r = url.match(rx);
   videoId = r[1];
@@ -44,31 +46,61 @@ router.post("/teach", ensureAuthenticated, function (req, res, next) {
     });
   } else {
     ClipWord.findOne({
-      clipword
-    }, function (err, clip) {
-      if (err) {
-        return next(err)
-      }
-      if (clip) {
-        req.flash("errorMsg", "Clipword exists already");
-        return res.redirect('/teach');
-      }
-      let newClip = new ClipWord({
-        clipword,
-        videoId
-      });
-      newClip.save()
-        .then(() => {
-          teacher.clipwords.push(newClip)
-          teacher.save()
-        }).then(() => {
-          req.flash("successMsg", "Clip added successfully");
-          res.redirect("/teach");
+        clipword
+      },
+      function (err, clip) {
+        if (err) {
+          return next(err);
+        }
+        if (clip) {
+          req.flash('errorMsg', 'Clipword exists already');
+          return res.redirect('/teach');
+        }
+        let newClip = new ClipWord({
+          clipword,
+          videoId
         });
-    }).catch(err => {
-      req.flash("errorMsg", "Some other error")
-    })
+        newClip
+          .save()
+          .then(() => {
+            teacher.clipwords.push(newClip);
+            teacher.save();
+          })
+          .then(() => {
+            req.flash('successMsg', 'Clip added successfully');
+            res.redirect('/teach');
+          });
+      }
+    ).catch((err) => {
+      req.flash('errorMsg', 'Some other error');
+    });
   }
+});
+
+router.post('/learn', ensureAuthenticated, function (req, res, next) {
+  let clipword = req.body.clipword;
+
+  req.checkBody('clipword', 'Enter a keyword').notEmpty().trim();
+
+  ClipWord.findOne({
+      clipword
+    },
+    function (err, clip) {
+      if (err) {
+        return next(err);
+      }
+      if (!clip) {
+        req.flash('errorMsg', "The clipword doesn't exist");
+        return res.redirect('/learn');
+      }
+
+      let video = clip.videoId;
+      res.render('watch', {
+        video
+      });
+      req.flash('video', video);
+    }
+  );
 });
 
 module.exports = router;

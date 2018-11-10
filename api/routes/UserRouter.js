@@ -20,12 +20,20 @@ function ensureAuthenticated(req, res, next) {
     return next();
   } else {
     req.flash("errorMsg", "You must be logged in to see this page");
-    res.redirect("/");
+    res.redirect("/login");
   }
 }
 
 router.get("/", function (req, res) {
   res.render("index");
+});
+
+router.get("/login", function (req, res) {
+  res.render("login");
+});
+
+router.get("/register", function (req, res) {
+  res.render("register");
 });
 
 router.post("/register", function (req, res, next) {
@@ -50,7 +58,7 @@ router.post("/register", function (req, res, next) {
   let errors = req.validationErrors();
 
   if (errors) {
-    res.render('index', {
+    res.render('register', {
       errors
     });
   } else {
@@ -62,7 +70,7 @@ router.post("/register", function (req, res, next) {
       }
       if (user) {
         req.flash("errorMsg", "Teacher exists already");
-        return res.redirect("/");
+        return res.redirect("/register");
       }
 
       let newUser = new User({
@@ -76,14 +84,14 @@ router.post("/register", function (req, res, next) {
       sendMail(email, message);
     });
     req.flash("successMsg", "Registration successful, check your mail for confirmation");
-    res.redirect("/");
+    res.redirect("/login");
   }
 });
 
 router.post('/login',
   passport.authenticate('local', {
     successRedirect: '/teach',
-    failureRedirect: '/',
+    failureRedirect: '/login',
     failureFlash: true
   })
   // function (req, res) {
@@ -105,24 +113,5 @@ router.get("/learn", ensureAuthenticated, function (req, res) {
   res.render("learn");
 });
 
-// // clipword
-// router.post("/teach", ensureAuthenticated, function (req, res) {
-//   let clipword = req.body.clipword;
-//   let url = req.body.url;
-//   let teacher = req.user;
-
-//   let newClip = new ClipWord({
-//     clipword,
-//     url
-//   });
-//   newClip.save()
-//     .then(() => {
-//       teacher.clipwords.push(newClip)
-//       teacher.save()
-//     }).then(() => {
-//       req.flash("successMsg", "Clipword added successfully");
-//       res.redirect("/teach");
-//     });
-// });
 
 module.exports = router;

@@ -2,34 +2,40 @@
   <div class="dark-overlay">
     <div class="main-inner container">
       <div class="row">
-        <div class="col-md-6 mx-auto">
+        <div class="col-md-9 mx-auto">
           {{#if successMsg}}
           <div class="alert alert-success">{{successMsg}}</div>
           {{/if}}
-          
+
           {{#if errorMsg}}
           <div class="alert alert-danger">{{errorMsg}}</div>
           {{/if}}
-          
+
           {{#if error}}
           <div class="alert alert-danger">{{error}}</div>
           {{/if}}
-          <!--search modal-->
-          <div class="modal" id="register-modal">
+
+          {{#if video}}
+          <div class="alert alert-danger">{{video}}</div>
+          {{/if}}
+
+          <!--video modal-->
+          <h3>Pay Attention!</h3>
+          
+          
+          <div id="login-modal">
             <div class="card bg-danger text-center card-form modal-body">
               <div class="card-body">
-                <h3>Paste Clipword Below</h3>
-                <form action="/learn" method="POST">
-                  <div class="form-group">
-                    <div class="form-group">
-                      <input type="text" class="form-control form-control-lg" placeholder="keyword" name="clipword">
-                    </div>
-                    <input type="submit" value="Search Clipword" class="btn btn-outline-class btn-block" id="modal-login">
-                  </div>
-                </form>
+                {{#if video}}
+                <iframe src="https://www.youtube.com/embed/{{video}}" frameborder="0" height="350" width="100%"
+                  allowfullscreen>
+                </iframe>
+                {{/if}}
               </div>
+              <button class="btn btn-outline" id="modal-register">Close</button>
             </div>
           </div>
+          
 
 
         </div>
