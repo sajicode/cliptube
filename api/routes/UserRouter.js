@@ -41,8 +41,8 @@ router.post("/register", function (req, res, next) {
   let firstname = req.body.firstname;
   let username = req.body.username;
   let password = req.body.password;
-  let port = process.env.PORT;
-  let message = `<h3 style="text-align:center; color: blue;"><a href='http://localhost:${port}/'>Click here</a> to login</h3>`;
+  let port = `http://localhost:${process.env.PORT}` || `cliptube.herokuapp.com`;
+  let message = `<h3 style="text-align:center; color: blue;"><a href='${port}/login'>Click here</a> to login</h3>`;
 
   // validation
   req.checkBody('firstname', 'Name is required').notEmpty();
