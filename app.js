@@ -16,7 +16,7 @@ const {
   mongoose
 } = require('./db/mongoose');
 
-let routes = require("./api/routes/UserRouter");
+let routes = require("./api/api");
 
 let app = express();
 

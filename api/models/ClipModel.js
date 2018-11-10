@@ -6,9 +6,8 @@ const ClipSchema = new mongoose.Schema({
     unique: true,
     required: true
   },
-  url: {
+  videoId: {
     type: String,
-    unique: true,
     required: true,
     trim: true
   },
