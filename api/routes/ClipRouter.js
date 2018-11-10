@@ -98,9 +98,23 @@ router.post('/learn', ensureAuthenticated, function (req, res, next) {
       res.render('watch', {
         video
       });
-      req.flash('video', video);
+      // req.flash('video', video);
     }
   );
+});
+
+router.get('/playlist', ensureAuthenticated, function (req, res) {
+  ClipWord.find({}).then((clips, err) => {
+    if (err) {
+      console.log(err);
+      return res.redirect('/learn')
+    }
+    res.render('playlist', {
+      clips
+    });
+    req.flash('successMsg', 'view playlist')
+    console.log(clips)
+  })
 });
 
 module.exports = router;
