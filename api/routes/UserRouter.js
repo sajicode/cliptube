@@ -105,11 +105,11 @@ router.get('/logout', function (req, res) {
   res.redirect("/");
 });
 
-router.get("/teach", ensureAuthenticated, function (req, res) {
+router.get("/teach", function (req, res) {
   res.render("teach");
 });
 
-router.get("/learn", ensureAuthenticated, function (req, res) {
+router.get("/learn", function (req, res) {
   res.render("learn");
 });
 

@@ -77,7 +77,7 @@ router.post('/teach', ensureAuthenticated, function (req, res, next) {
   }
 });
 
-router.post('/learn', ensureAuthenticated, function (req, res, next) {
+router.post('/learn', function (req, res, next) {
   let clipword = req.body.clipword;
 
   req.checkBody('clipword', 'Enter a keyword').notEmpty().trim();
@@ -103,7 +103,7 @@ router.post('/learn', ensureAuthenticated, function (req, res, next) {
   );
 });
 
-router.get('/playlist', ensureAuthenticated, function (req, res) {
+router.get('/playlist', function (req, res) {
   ClipWord.find({}).then((clips, err) => {
     if (err) {
       console.log(err);
@@ -112,8 +112,6 @@ router.get('/playlist', ensureAuthenticated, function (req, res) {
     res.render('playlist', {
       clips
     });
-    req.flash('successMsg', 'view playlist')
-    console.log(clips)
   })
 });
 
