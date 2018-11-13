@@ -68,3 +68,7 @@ body {
 #modal-register:hover {
   cursor: pointer;
 }
+
+#playlist-section {
+  padding-top: 2em;
+}
