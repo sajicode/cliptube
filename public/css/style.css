@@ -11,6 +11,14 @@ body {
   min-height: 700px;
 }
 
+#landing-section {
+  background: url("../img/landing.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  min-height: 700px;
+}
+
 #teach-section,
 #learn-section {
   background: url("../img/teach.jpg");
