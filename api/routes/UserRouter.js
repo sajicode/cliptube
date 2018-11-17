@@ -114,5 +114,23 @@ router.get("/learn", function (req, res) {
   res.render("learn");
 });
 
+router.post('/send', (req, res) => {
+  const output = `
+    <p>You have a new message</p>
+    <h3>Contact Details</h3>
+    <ul>
+      <li>Name: ${req.body.name}</li>
+      <li>Email: ${req.body.email}</li>
+      <li>Phone: ${req.body.phone}</li>
+    </ul>
+    <h3>Message</h3>
+    <p>${req.body.message}</p>
+  `;
+  const email = "sajioloye@gmail.com";
+  sendMail(email, output)
+  req.flash("successMsg", "Email sent");
+  res.redirect("/");
+});
+
 
 module.exports = router;
