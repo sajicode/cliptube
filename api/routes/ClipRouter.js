@@ -98,7 +98,6 @@ router.post('/learn', function (req, res, next) {
       res.render('watch', {
         video
       });
-      // req.flash('video', video);
     }
   );
 });

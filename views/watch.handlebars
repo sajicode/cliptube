@@ -15,16 +15,12 @@
           <div class="alert alert-danger">{{error}}</div>
           {{/if}}
 
-          {{#if video}}
-          <div class="alert alert-danger">{{video}}</div>
-          {{/if}}
-
           <!--video modal-->
           <h3>Pay Attention!</h3>
           
           
           <div id="login-modal">
-            <div class="card bg-danger text-center card-form modal-body">
+            <div class="card bg-primary text-center card-form modal-body">
               <div class="card-body">
                 {{#if video}}
                 <iframe src="https://www.youtube.com/embed/{{video}}" frameborder="0" height="350" width="100%"
