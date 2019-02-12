@@ -12,10 +12,7 @@ body {
 }
 
 #landing-section {
-  background: url("../img/landing.jpg");
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-attachment: fixed;
+  background: #0E233C;
   min-height: 700px;
 }
 
